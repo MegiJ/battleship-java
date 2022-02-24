@@ -1,0 +1,5 @@
+org\scrum\psd\battleship\controller\dto\Ship.class
+org\scrum\psd\battleship\controller\GameController.class
+org\scrum\psd\battleship\controller\dto\Letter.class
+org\scrum\psd\battleship\controller\dto\Position.class
+org\scrum\psd\battleship\controller\dto\Color.class

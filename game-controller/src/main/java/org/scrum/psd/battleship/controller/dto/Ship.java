@@ -85,4 +85,24 @@ public class Ship {
     public void setSize(int size) {
         this.size = size;
     }
+
+    public boolean isDestroyed(){
+        boolean tmp = true;
+        for(Position pos : positions){
+            tmp = tmp && pos.isDestroyed();
+        }
+        return tmp;
+    }
+
+    public boolean isUsedPosition(String positionInput) {
+
+        for(Position position : positions){
+            if( positionInput.toUpperCase().equals(position.toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

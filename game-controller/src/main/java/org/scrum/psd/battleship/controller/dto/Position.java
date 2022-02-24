@@ -3,6 +3,8 @@ package org.scrum.psd.battleship.controller.dto;
 public class Position {
     private Letter column;
     private int row;
+    private boolean isDestroyed;
+
 
     public Position() {
         super();
@@ -13,6 +15,7 @@ public class Position {
 
         this.column = column;
         this.row = row;
+        this.isDestroyed=false;
     }
 
     public Letter getColumn() {
@@ -31,6 +34,14 @@ public class Position {
         this.row = row;
     }
 
+    public void setDestroyed(boolean destroyed) {
+        isDestroyed = destroyed;
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
+    }
+
     @Override public boolean equals(Object o) {
         if(o instanceof Position) {
             Position position = (Position) o;
@@ -43,5 +54,10 @@ public class Position {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "" + column + row;
     }
 }

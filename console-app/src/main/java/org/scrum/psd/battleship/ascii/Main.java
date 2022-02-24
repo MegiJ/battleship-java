@@ -8,6 +8,7 @@ import org.scrum.psd.battleship.controller.dto.Position;
 import org.scrum.psd.battleship.controller.dto.Ship;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -43,6 +44,7 @@ public class Main {
 
     private static void StartGame() {
         Scanner scanner = new Scanner(System.in);
+        boolean endGame=false;
 
         console.print("\033[2J\033[;H");
         console.println("                  __");
@@ -57,14 +59,26 @@ public class Main {
         console.println("    \" \"\" \"\" \"\" \"");
 
         do {
+            console.setBackgroundColor(Ansi.BColor.WHITE);
+            console.setForegroundColor(Ansi.FColor.BLACK);
             console.println("");
             console.println("Player, it's your turn");
             console.println("Enter coordinates for your shot :");
-            Position position = parsePosition(scanner.next());
-            boolean isHit = GameController.checkIsHit(enemyFleet, position);
-            if (isHit) {
-                beep();
 
+            String input = scanner.next();
+            if(!GameController.isInputValid(input)){
+                console.println("Wrong coordinates, again!");
+                continue;
+            }
+
+            Position position = parsePosition(input);
+//            boolean isHit = GameController.checkIsHit(enemyFleet, position);
+
+            Optional<Ship> shottedShip = GameController.getShottedShip(enemyFleet, position);
+            if (shottedShip.isPresent()) {
+                beep();
+                console.setForegroundColor(Ansi.FColor.RED);
+                console.println("Nice hit !");
                 console.println("                \\         .  ./");
                 console.println("              \\      .:\" \";'.:..\" \"   /");
                 console.println("                  (M^^.^~~:.'\" \").");
@@ -73,27 +87,86 @@ public class Main {
                 console.println("            -   (\\- |  \\ /  |  /)  -");
                 console.println("                 -\\  \\     /  /-");
                 console.println("                   \\  \\   /  /");
-            }
 
-            console.println(isHit ? "Yeah ! Nice hit !" : "Miss");
+                if(shottedShip.get().isDestroyed()){
+                    console.println(String.format("Ship %s is destroyed", shottedShip.get().getName()));
+                    System.out.println();
+                    System.out.println();
+                    for(Ship ship: GameController.getReadyToAttackShip(enemyFleet)){
+                        console.println(String.format("Ship %s still wanna kill you", ship.getName()));
+                    }
+                }
+
+
+                if(GameController.checkYouWin(enemyFleet)){
+                    console.println("YOU   ARE   THE   WINNER!");
+                    endGame=true;
+                }
+
+            }
+            else{
+                console.setForegroundColor(Ansi.FColor.BLUE);
+                console.println("You Miss!!");
+            }
+            System.out.println();
+            System.out.println();
+
 
             position = getRandomPosition();
-            isHit = GameController.checkIsHit(myFleet, position);
-            console.println("");
-            console.println(String.format("Computer shoot in %s%s and %s", position.getColumn(), position.getRow(), isHit ? "hit your ship !" : "miss"));
-            if (isHit) {
-                beep();
+            boolean isHit = GameController.checkIsHit(myFleet, position);
 
-                console.println("                \\         .  ./");
-                console.println("              \\      .:\" \";'.:..\" \"   /");
-                console.println("                  (M^^.^~~:.'\" \").");
-                console.println("            -   (/  .    . . \\ \\)  -");
-                console.println("               ((| :. ~ ^  :. .|))");
-                console.println("            -   (\\- |  \\ /  |  /)  -");
-                console.println("                 -\\  \\     /  /-");
-                console.println("                   \\  \\   /  /");
+            console.println("");
+            console.setBackgroundColor(Ansi.BColor.YELLOW);
+
+            if(!endGame) {
+                if (isHit) {
+                    beep();
+                    console.setForegroundColor(Ansi.FColor.RED);
+                    console.print(String.format("Computer shoot in %s%s and ", position.getColumn(), position.getRow()));
+                    console.println("Computer Nice Hit !");
+                    console.println("                \\         .  ./");
+                    console.println("              \\      .:\" \";'.:..\" \"   /");
+                    console.println("                  (M^^.^~~:.'\" \").");
+                    console.println("            -   (/  .    . . \\ \\)  -");
+                    console.println("               ((| :. ~ ^  :. .|))");
+                    console.println("            -   (\\- |  \\ /  |  /)  -");
+                    console.println("                 -\\  \\     /  /-");
+                    console.println("                   \\  \\   /  /");
+
+                    if (GameController.checkYouWin(myFleet)) {
+                        console.println("You lost!");
+                        endGame = true;
+                    }
+
+                } else {
+                    console.setForegroundColor(Ansi.FColor.BLUE);
+                    console.print(String.format("Computer shoot in %s%s and ", position.getColumn(), position.getRow()));
+                    console.println("Computer Miss!!");
+                    System.out.println();
+                    System.out.println();
+
+                }
+            }
+
+            if(endGame){
+                endGame=false;
+
+                console.setBackgroundColor(Ansi.BColor.WHITE);
+                console.setForegroundColor(Ansi.FColor.BLACK);
+                console.println("press R - If you want to restart game!");
+                console.println("press X - If you want to end game!");
+                String signal = scanner.next();
+
+                if("R".equals(signal.toUpperCase().substring(0,1))){
+                    InitializeGame();
+                }
+                if("X".equals(signal.toUpperCase().substring(0,1))){
+                    System.exit(0);
+                }
+
 
             }
+
         } while (true);
     }
 
@@ -136,7 +209,16 @@ public class Main {
                 console.println(String.format("Enter position %s of %s (i.e A3):", i, ship.getSize()));
 
                 String positionInput = scanner.next();
-                ship.addPosition(positionInput);
+                if(!GameController.isShipPositionValid(myFleet,ship,positionInput)) {
+                    console.println(String.format("Entered position is incorrect"));
+                    //console.println(String.format("If you want to reset ship configuration press R if you want to continue press C"));
+
+                    i--;
+                }
+                else {
+                    ship.addPosition(positionInput);
+                }
+
             }
         }
     }
