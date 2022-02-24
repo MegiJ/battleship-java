@@ -7,15 +7,19 @@ import org.scrum.psd.battleship.controller.dto.Letter;
 import org.scrum.psd.battleship.controller.dto.Position;
 import org.scrum.psd.battleship.controller.dto.Ship;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static List<Ship> myFleet;
     private static List<Ship> enemyFleet;
     private static ColoredPrinter console;
+
+    private static List<Position> positions1=new ArrayList<Position>();
+    private static List<Position> positions2=new ArrayList<Position>();
+    private static List<Position> positions3=new ArrayList<Position>();
+    private static List<Position> positions4=new ArrayList<Position>();
+    private static List<Position> positions5=new ArrayList<Position>();
+
 
     public static void main(String[] args) {
         console = new ColoredPrinter.Builder(1, false).background(Ansi.BColor.BLACK).foreground(Ansi.FColor.WHITE).build();
@@ -223,29 +227,142 @@ public class Main {
         }
     }
 
-    private static void InitializeEnemyFleet() {
+    static void InitializeEnemyFleet() {
         enemyFleet = GameController.initializeShips();
+        generateRandomPositionLists();
+        List<Position> positions = getRandomPositionList();
 
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 4));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 5));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 6));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 7));
-        enemyFleet.get(0).getPositions().add(new Position(Letter.B, 8));
+        enemyFleet.get(0).getPositions().add(positions.get(0));
+        enemyFleet.get(0).getPositions().add(positions.get(1));
+        enemyFleet.get(0).getPositions().add(positions.get(2));
+        enemyFleet.get(0).getPositions().add(positions.get(3));
+        enemyFleet.get(0).getPositions().add(positions.get(4));
 
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 6));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 7));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 8));
-        enemyFleet.get(1).getPositions().add(new Position(Letter.E, 9));
+        enemyFleet.get(1).getPositions().add(positions.get(5));
+        enemyFleet.get(1).getPositions().add(positions.get(6));
+        enemyFleet.get(1).getPositions().add(positions.get(7));
+        enemyFleet.get(1).getPositions().add(positions.get(8));
 
-        enemyFleet.get(2).getPositions().add(new Position(Letter.A, 3));
-        enemyFleet.get(2).getPositions().add(new Position(Letter.B, 3));
-        enemyFleet.get(2).getPositions().add(new Position(Letter.C, 3));
+        enemyFleet.get(2).getPositions().add(positions.get(9));
+        enemyFleet.get(2).getPositions().add(positions.get(10));
+        enemyFleet.get(2).getPositions().add(positions.get(11));
 
-        enemyFleet.get(3).getPositions().add(new Position(Letter.F, 8));
-        enemyFleet.get(3).getPositions().add(new Position(Letter.G, 8));
-        enemyFleet.get(3).getPositions().add(new Position(Letter.H, 8));
+        enemyFleet.get(3).getPositions().add(positions.get(12));
+        enemyFleet.get(3).getPositions().add(positions.get(13));
+        enemyFleet.get(3).getPositions().add(positions.get(14));
 
-        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 5));
-        enemyFleet.get(4).getPositions().add(new Position(Letter.C, 6));
+        enemyFleet.get(4).getPositions().add(positions.get(15));
+        enemyFleet.get(4).getPositions().add(positions.get(16));
     }
+
+    private static List<Position> getRandomPositionList() {
+        Random random = new Random();
+        int i = random.nextInt(6);
+        switch (i) {
+            case 2:
+                return positions2;
+            case 3:
+                return positions3;
+            case 4:
+                return positions4;
+            case 5:
+                return positions5;
+            default:
+                return positions1;
+        }
+    }
+
+    private static void generateRandomPositionLists() {
+        positions1.add(new Position(Letter.B, 1));
+        positions1.add(new Position(Letter.B, 2));
+        positions1.add(new Position(Letter.B, 3));
+        positions1.add(new Position(Letter.B, 4));
+        positions1.add(new Position(Letter.B, 5));
+        positions1.add(new Position(Letter.E, 1));
+        positions1.add(new Position(Letter.E, 2));
+        positions1.add(new Position(Letter.E, 3));
+        positions1.add(new Position(Letter.E, 4));
+        positions1.add(new Position(Letter.A, 6));
+        positions1.add(new Position(Letter.B, 6));
+        positions1.add(new Position(Letter.C, 6));
+        positions1.add(new Position(Letter.F, 1));
+        positions1.add(new Position(Letter.G, 1));
+        positions1.add(new Position(Letter.H, 1));
+
+        positions1.add(new Position(Letter.C, 7));
+        positions1.add(new Position(Letter.C, 8));
+
+        positions2.add(new Position(Letter.B, 4));
+        positions2.add(new Position(Letter.B, 5));
+        positions2.add(new Position(Letter.B, 6));
+        positions2.add(new Position(Letter.B, 7));
+        positions2.add(new Position(Letter.B, 8));
+        positions2.add(new Position(Letter.E, 6));
+        positions2.add(new Position(Letter.E, 7));
+        positions2.add(new Position(Letter.E, 8));
+        positions2.add(new Position(Letter.E, 9));
+        positions2.add(new Position(Letter.A, 3));
+        positions2.add(new Position(Letter.B, 3));
+        positions2.add(new Position(Letter.C, 3));
+        positions2.add(new Position(Letter.F, 8));
+        positions2.add(new Position(Letter.G, 8));
+        positions2.add(new Position(Letter.H, 8));
+        positions2.add(new Position(Letter.C, 5));
+        positions2.add(new Position(Letter.C, 6));
+
+        positions3.add(new Position(Letter.B, 4));
+        positions3.add(new Position(Letter.B, 5));
+        positions3.add(new Position(Letter.B, 6));
+        positions3.add(new Position(Letter.B, 7));
+        positions3.add(new Position(Letter.B, 8));
+        positions3.add(new Position(Letter.E, 6));
+        positions3.add(new Position(Letter.E, 7));
+        positions3.add(new Position(Letter.E, 8));
+        positions3.add(new Position(Letter.E, 9));
+        positions3.add(new Position(Letter.A, 3));
+        positions3.add(new Position(Letter.B, 3));
+        positions3.add(new Position(Letter.C, 3));
+        positions3.add(new Position(Letter.F, 8));
+        positions3.add(new Position(Letter.G, 8));
+        positions3.add(new Position(Letter.H, 8));
+        positions3.add(new Position(Letter.C, 5));
+        positions3.add(new Position(Letter.C, 6));
+
+        positions4.add(new Position(Letter.B, 4));
+        positions4.add(new Position(Letter.B, 5));
+        positions4.add(new Position(Letter.B, 6));
+        positions4.add(new Position(Letter.B, 7));
+        positions4.add(new Position(Letter.B, 8));
+        positions4.add(new Position(Letter.E, 6));
+        positions4.add(new Position(Letter.E, 7));
+        positions4.add(new Position(Letter.E, 8));
+        positions4.add(new Position(Letter.E, 9));
+        positions4.add(new Position(Letter.A, 3));
+        positions4.add(new Position(Letter.B, 3));
+        positions4.add(new Position(Letter.C, 3));
+        positions4.add(new Position(Letter.F, 8));
+        positions4.add(new Position(Letter.G, 8));
+        positions4.add(new Position(Letter.H, 8));
+        positions4.add(new Position(Letter.C, 5));
+        positions4.add(new Position(Letter.C, 6));
+
+        positions5.add(new Position(Letter.B, 4));
+        positions5.add(new Position(Letter.B, 5));
+        positions5.add(new Position(Letter.B, 6));
+        positions5.add(new Position(Letter.B, 7));
+        positions5.add(new Position(Letter.B, 8));
+        positions5.add(new Position(Letter.E, 6));
+        positions5.add(new Position(Letter.E, 7));
+        positions5.add(new Position(Letter.E, 8));
+        positions5.add(new Position(Letter.E, 9));
+        positions5.add(new Position(Letter.A, 3));
+        positions5.add(new Position(Letter.B, 3));
+        positions5.add(new Position(Letter.C, 3));
+        positions5.add(new Position(Letter.F, 8));
+        positions5.add(new Position(Letter.G, 8));
+        positions5.add(new Position(Letter.H, 8));
+        positions5.add(new Position(Letter.C, 5));
+        positions5.add(new Position(Letter.C, 6));
+    }
+
 }
