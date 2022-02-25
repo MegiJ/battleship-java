@@ -7,7 +7,10 @@ import org.scrum.psd.battleship.controller.dto.Letter;
 import org.scrum.psd.battleship.controller.dto.Position;
 import org.scrum.psd.battleship.controller.dto.Ship;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
+import java.util.List;
 
 public class Main {
     private static List<Ship> myFleet;
@@ -24,22 +27,23 @@ public class Main {
     public static void main(String[] args) {
         console = new ColoredPrinter.Builder(1, false).background(Ansi.BColor.BLACK).foreground(Ansi.FColor.WHITE).build();
 
-        console.setForegroundColor(Ansi.FColor.MAGENTA);
-        console.println("                                     |__");
-        console.println("                                     |\\/");
-        console.println("                                     ---");
-        console.println("                                     / | [");
-        console.println("                              !      | |||");
-        console.println("                            _/|     _/|-++'");
-        console.println("                        +  +--|    |--|--|_ |-");
-        console.println("                     { /|__|  |/\\__|  |--- |||__/");
-        console.println("                    +---------------___[}-_===_.'____                 /\\");
-        console.println("                ____`-' ||___-{]_| _[}-  |     |_[___\\==--            \\/   _");
-        console.println(" __..._____--==/___]_|__|_____________________________[___\\==--____,------' .7");
-        console.println("|                        Welcome to Battleship                         BB-61/");
-        console.println(" \\_________________________________________________________________________|");
+        //console.setForegroundColor(Ansi.FColor.MAGENTA);
+        console.println("                                     |__                                           ");
+        console.println("                                     |\\/                                           ");
+        console.println("                                     ---                                           ");
+        console.println("                                     / | [                                         ");
+        console.println("                              !      | |||                                         ");
+        console.println("                            _/|     _/|-++'                                        ");
+        console.println("                        +  +--|    |--|--|_ |-                                     ");
+        console.println("                     { /|__|  |/\\__|  |--- |||__/                                  ");
+        console.println("                    +---------------___[}-_===_.'____                 /\\           ");
+        console.println("                ____`-' ||___-{]_| _[}-  |     |_[___\\==--            \\/   _       ");
+        console.println(" __..._____--==/___]_|__|_____________________________[___\\==--____,------' .7     ");
+        console.println("|                        Welcome to Battleship                         BB-61/      ");
+        console.println(" \\_________________________________________________________________________|       ");
         console.println("");
-        console.setForegroundColor(Ansi.FColor.WHITE);
+      //  console.setForegroundColor(Ansi.FColor.WHITE);
+
 
         InitializeGame();
 
@@ -50,128 +54,182 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean endGame=false;
 
-        console.print("\033[2J\033[;H");
-        console.println("                  __");
-        console.println("                 /  \\");
-        console.println("           .-.  |    |");
-        console.println("   *    _.-'  \\  \\__/");
-        console.println("    \\.-'       \\");
-        console.println("   /          _/");
-        console.println("  |      _  /\" \"");
-        console.println("  |     /_\'");
-        console.println("   \\    \\_/");
-        console.println("    \" \"\" \"\" \"\" \"");
+        console.println("                  __                           ");
+        console.println("                 /  \\                         ");
+        console.println("           .-.  |    |                         ");
+        console.println("   *    _.-'  \\  \\__/                        ");
+        console.println("    \\.-'       \\                             ");
+        console.println("   /          _/                               ");
+        console.println("  |      _  /\" \"                             ");
+        console.println("  |     /_\'                                   ");
+        console.println("   \\    \\_/                                  ");
+        console.println("    \" \"\" \"\" \"\" \"                       ");
 
         do {
-            console.setBackgroundColor(Ansi.BColor.WHITE);
-            console.setForegroundColor(Ansi.FColor.BLACK);
-            console.println("");
-            console.println("Player, it's your turn");
-            console.println("Enter coordinates for your shot :");
-
-            String input = scanner.next();
-            if(!GameController.isInputValid(input)){
-                console.println("Wrong coordinates, again!");
-                continue;
-            }
-
-            Position position = parsePosition(input);
-//            boolean isHit = GameController.checkIsHit(enemyFleet, position);
-
-            Optional<Ship> shottedShip = GameController.getShottedShip(enemyFleet, position);
-            if (shottedShip.isPresent()) {
-                beep();
-                console.setForegroundColor(Ansi.FColor.RED);
-                console.println("Nice hit !");
-                console.println("                \\         .  ./");
-                console.println("              \\      .:\" \";'.:..\" \"   /");
-                console.println("                  (M^^.^~~:.'\" \").");
-                console.println("            -   (/  .    . . \\ \\)  -");
-                console.println("               ((| :. ~ ^  :. .|))");
-                console.println("            -   (\\- |  \\ /  |  /)  -");
-                console.println("                 -\\  \\     /  /-");
-                console.println("                   \\  \\   /  /");
-
-                if(shottedShip.get().isDestroyed()){
-                    console.println(String.format("Ship %s is destroyed", shottedShip.get().getName()));
-                    System.out.println();
-                    System.out.println();
-                    for(Ship ship: GameController.getReadyToAttackShip(enemyFleet)){
-                        console.println(String.format("Ship %s still wanna kill you", ship.getName()));
-                    }
-                }
-
-
-                if(GameController.checkYouWin(enemyFleet)){
-                    console.println("YOU   ARE   THE   WINNER!");
-                    endGame=true;
-                }
-
-            }
-            else{
-                console.setForegroundColor(Ansi.FColor.BLUE);
-                console.println("You Miss!!");
-            }
-            System.out.println();
-            System.out.println();
-
-
-            position = getRandomPosition();
-            boolean isHit = GameController.checkIsHit(myFleet, position);
-
-            console.println("");
-            console.setBackgroundColor(Ansi.BColor.YELLOW);
 
             if(!endGame) {
-                if (isHit) {
+                //console.setBackgroundColor(Ansi.BColor.WHITE);
+                console.setForegroundColor(Ansi.FColor.GREEN);
+
+                console.println("--------------------------------------------------------------");
+                console.println("Player, it's your turn");
+                console.println("Enter coordinates for your shot :");
+
+                String input = scanner.next();
+                if (!GameController.isInputValid(input)) {
+                    console.println("Wrong coordinates, again!");
+                    continue;
+                }
+
+                Position position = parsePosition(input);
+//            boolean isHit = GameController.checkIsHit(enemyFleet, position);
+
+                Optional<Ship> shottedShip = GameController.getShottedShip(enemyFleet, position);
+                if (shottedShip.isPresent()) {
                     beep();
                     console.setForegroundColor(Ansi.FColor.RED);
-                    console.print(String.format("Computer shoot in %s%s and ", position.getColumn(), position.getRow()));
-                    console.println("Computer Nice Hit !");
-                    console.println("                \\         .  ./");
-                    console.println("              \\      .:\" \";'.:..\" \"   /");
-                    console.println("                  (M^^.^~~:.'\" \").");
-                    console.println("            -   (/  .    . . \\ \\)  -");
-                    console.println("               ((| :. ~ ^  :. .|))");
-                    console.println("            -   (\\- |  \\ /  |  /)  -");
-                    console.println("                 -\\  \\     /  /-");
-                    console.println("                   \\  \\   /  /");
+                    console.println("Nice hit !                                     ");
+                    console.println("                \\         .  ./               ");
+                    console.println("              \\      .:\" \";'.:..\" \"   /   ");
+                    console.println("                  (M^^.^~~:.'\" \").           ");
+                    console.println("            -   (/  .    . . \\ \\)  -         ");
+                    console.println("               ((| :. ~ ^  :. .|))             ");
+                    console.println("            -   (\\- |  \\ /  |  /)  -         ");
+                    console.println("                 -\\  \\     /  /-             ");
+                    console.println("                   \\  \\   /  /               ");
 
-                    if (GameController.checkYouWin(myFleet)) {
-                        console.println("You lost!");
+
+                    if (shottedShip.get().isDestroyed()) {
+                        console.println(String.format("Enemy ship %s is destroyed", shottedShip.get().getName()));
+                        console.println(String.format("%s", shottedShip.get().getPositions().toString()));
+
+                        System.out.println();
+                        System.out.println();
+                        for (Ship ship : GameController.getReadyToAttackShip(enemyFleet)) {
+                            console.println(String.format("Ship %s still wanna kill you", ship.getName()));
+                        }
+                    }
+
+
+                    if (GameController.checkYouWin(enemyFleet)) {
                         endGame = true;
+                        console.print("\033[H\033[2J");
+                        int i = 0;
+                        while (i < 10) {
+                            try {
+                                console.setForegroundColor(Ansi.FColor.RED);
+                                effectWOW( 160, 60, console);
+                                Thread.currentThread().sleep(1000);
+                                console.print("\033[H\033[2J");
+                                console.setForegroundColor(Ansi.FColor.YELLOW);
+                                effectWOW( 160, 60, console);
+                                Thread.currentThread().sleep(1000);
+                                console.print("\033[H\033[2J");
+                            } catch(InterruptedException e){
+                                //Perform your exception handling
+                            }
+                            //Increase the int so we aren't stuck here forever
+                            i++;
+                        }
                     }
 
                 } else {
                     console.setForegroundColor(Ansi.FColor.BLUE);
-                    console.print(String.format("Computer shoot in %s%s and ", position.getColumn(), position.getRow()));
-                    console.println("Computer Miss!!");
-                    System.out.println();
-                    System.out.println();
+                    console.println("YOU MISS                                       ");
+                }
+                System.out.println();
+                System.out.println();
 
+
+                position = getRandomPosition();
+                shottedShip = GameController.getShottedShip(myFleet, position);
+
+                console.println("");
+                console.setForegroundColor(Ansi.FColor.YELLOW);
+                console.println("--------------------------------------------------------------");
+                console.println("Computer turn");
+                if (!endGame) {
+                    if (shottedShip.isPresent()) {
+                        beep();
+                        console.println(String.format("Computer shoot in %s%s", position.getColumn(), position.getRow()));
+                        console.setForegroundColor(Ansi.FColor.RED);
+                        console.println("Computer hits your ship !");
+                        console.println("                \\         .  ./");
+                        console.println("              \\      .:\" \";'.:..\" \"   /");
+                        console.println("                  (M^^.^~~:.'\" \").");
+                        console.println("            -   (/  .    . . \\ \\)  -");
+                        console.println("               ((| :. ~ ^  :. .|))");
+                        console.println("            -   (\\- |  \\ /  |  /)  -");
+                        console.println("                 -\\  \\     /  /-");
+                        console.println("                   \\  \\   /  /");
+
+                        if (shottedShip.get().isDestroyed()) {
+                            console.println(String.format("Player, your ship %s is destroyed", shottedShip.get().getName()));
+                        }
+
+                        if (GameController.checkYouWin(myFleet)) {
+                            console.println("Computer destroys all of Your fleet.");
+                            console.println("You lost!");
+                            endGame = true;
+                        }
+
+                    } else {
+                        console.println(String.format("Computer shoot in %s%s", position.getColumn(), position.getRow()));
+                        console.setForegroundColor(Ansi.FColor.BLUE);
+                        console.println("Computer Miss!!");
+                        System.out.println();
+                        System.out.println();
+
+                    }
                 }
             }
 
             if(endGame){
-                endGame=false;
 
-                console.setBackgroundColor(Ansi.BColor.WHITE);
-                console.setForegroundColor(Ansi.FColor.BLACK);
+                console.setForegroundColor(Ansi.FColor.WHITE);
                 console.println("press R - If you want to restart game!");
                 console.println("press X - If you want to end game!");
                 String signal = scanner.next();
 
                 if("R".equals(signal.toUpperCase().substring(0,1))){
+                    endGame=false;
                     InitializeGame();
                 }
-                if("X".equals(signal.toUpperCase().substring(0,1))){
+                else if("X".equals(signal.toUpperCase().substring(0,1))){
                     System.exit(0);
                 }
-
-
+                else {
+                    System.out.print("\033[H\033[2J");
+                    console.println("The Game is Over!!");
+                }
             }
 
         } while (true);
+    }
+
+    private static void effectWOW(int width, int height, ColoredPrinter console) {
+
+        BufferedImage bufferedImage = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = bufferedImage.getGraphics();
+
+        Graphics2D graphics2D = (Graphics2D) graphics;
+        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics2D.drawString("YOU ARE THE WINNER", 12, 24);
+
+        for (int y = 0; y < height; y++) {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int x = 0; x < width; x++) {
+                stringBuilder.append(bufferedImage.getRGB(x, y) == -16777216 ? " " : "*");
+            }
+
+            if (stringBuilder.toString().trim().isEmpty()) {
+                continue;
+            }
+
+            console.println(stringBuilder);
+        }
     }
 
     private static void beep() {
@@ -203,11 +261,14 @@ public class Main {
     private static void InitializeMyFleet() {
         Scanner scanner = new Scanner(System.in);
         myFleet = GameController.initializeShips();
-
-        console.println("Please position your fleet (Game board has size from A to H and 1 to 8) :");
+        console.setForegroundColor(Ansi.FColor.WHITE);
+        console.println("                                                                                   ");
+        console.println("                                                                                   ");
+        console.println("Please position your fleet (Game board has size from A to H and 1 to 8) :          ");
 
         for (Ship ship : myFleet) {
             console.println("");
+            console.println("                                                                                   ");
             console.println(String.format("Please enter the positions for the %s (size: %s)", ship.getName(), ship.getSize()));
             for (int i = 1; i <= ship.getSize(); i++) {
                 console.println(String.format("Enter position %s of %s (i.e A3):", i, ship.getSize()));
@@ -297,10 +358,10 @@ public class Main {
         positions2.add(new Position(Letter.B, 6));
         positions2.add(new Position(Letter.B, 7));
         positions2.add(new Position(Letter.B, 8));
+        positions2.add(new Position(Letter.E, 5));
         positions2.add(new Position(Letter.E, 6));
         positions2.add(new Position(Letter.E, 7));
         positions2.add(new Position(Letter.E, 8));
-        positions2.add(new Position(Letter.E, 9));
         positions2.add(new Position(Letter.A, 3));
         positions2.add(new Position(Letter.B, 3));
         positions2.add(new Position(Letter.C, 3));
@@ -318,7 +379,7 @@ public class Main {
         positions3.add(new Position(Letter.E, 6));
         positions3.add(new Position(Letter.E, 7));
         positions3.add(new Position(Letter.E, 8));
-        positions3.add(new Position(Letter.E, 9));
+        positions3.add(new Position(Letter.E, 5));
         positions3.add(new Position(Letter.A, 3));
         positions3.add(new Position(Letter.B, 3));
         positions3.add(new Position(Letter.C, 3));
@@ -336,7 +397,7 @@ public class Main {
         positions4.add(new Position(Letter.E, 6));
         positions4.add(new Position(Letter.E, 7));
         positions4.add(new Position(Letter.E, 8));
-        positions4.add(new Position(Letter.E, 9));
+        positions4.add(new Position(Letter.E, 5));
         positions4.add(new Position(Letter.A, 3));
         positions4.add(new Position(Letter.B, 3));
         positions4.add(new Position(Letter.C, 3));
@@ -354,7 +415,7 @@ public class Main {
         positions5.add(new Position(Letter.E, 6));
         positions5.add(new Position(Letter.E, 7));
         positions5.add(new Position(Letter.E, 8));
-        positions5.add(new Position(Letter.E, 9));
+        positions5.add(new Position(Letter.E, 5));
         positions5.add(new Position(Letter.A, 3));
         positions5.add(new Position(Letter.B, 3));
         positions5.add(new Position(Letter.C, 3));

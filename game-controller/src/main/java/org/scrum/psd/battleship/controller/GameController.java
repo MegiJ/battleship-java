@@ -21,15 +21,6 @@ public class GameController {
             for (Position position : ship.getPositions()) {
                 if (position.equals(shot)) {
                     position.setDestroyed(true);
-//                    if(ship.isDestroyed()){
-//                        System.out.println(String.format("Ship %s is destroyed", ship.getName()));
-//                        for (Ship ship2 : ships){
-//                            if(!ship2.isDestroyed()){
-//                                System.out.println(String.format("Ship %s is not destroyed", ship2.getName()));
-//                            }
-//                        }
-//                    }
-
                     return true;
                 }
             }
@@ -119,6 +110,17 @@ public class GameController {
         if(ship.getPositions().size()==0){
             return true;
         }
+
+        if(ship.getPositions().size()==1){
+
+            int sum = Math.abs(ship.getPositions().get(0).getRow() - newRow)  + Math.abs(ship.getPositions().get(0).getColumn().ordinal() - newLetter.ordinal());
+
+            if(sum==1){
+                return true;
+            }
+            return false;
+        }
+
 
         if(ship.getPositions().size()>1){
             if( ship.getPositions().get(0).getColumn().equals(ship.getPositions().get(1).getColumn()) && !ship.getPositions().get(0).getColumn().equals(newLetter)){
