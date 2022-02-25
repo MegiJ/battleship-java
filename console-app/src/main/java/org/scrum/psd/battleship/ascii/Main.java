@@ -110,28 +110,29 @@ public class Main {
                         }
                         try {
                             Thread.currentThread().sleep(1000);
-                        }catch (Exception e){
+                        } catch (Exception e) {
 
                         }
-                    }
 
 
-                    if (GameController.checkYouWin(enemyFleet)) {
-                        endGame = true;
-                        GameController.clearConsole();
-                        int i = 0;
-                        while (i < 10) {
-                            try {
-                                console.setForegroundColor(Ansi.FColor.RED);
-                                effectWOW( 160, 60, console);
-                                Thread.currentThread().sleep(1000);
-                                GameController.clearConsole();
-                                console.setForegroundColor(Ansi.FColor.YELLOW);
-                                effectWOW( 160, 60, console);
-                                Thread.currentThread().sleep(1000);
-                                GameController.clearConsole();
-                            } catch(InterruptedException e){}
-                            i++;
+                        if (GameController.checkYouWin(enemyFleet)) {
+                            endGame = true;
+                            GameController.clearConsole();
+                            int i = 0;
+                            while (i < 10) {
+                                try {
+                                    console.setForegroundColor(Ansi.FColor.RED);
+                                    effectWOW(160, 60, console);
+                                    Thread.currentThread().sleep(1000);
+                                    GameController.clearConsole();
+                                    console.setForegroundColor(Ansi.FColor.YELLOW);
+                                    effectWOW(160, 60, console);
+                                    Thread.currentThread().sleep(1000);
+                                    GameController.clearConsole();
+                                } catch (InterruptedException e) {
+                                }
+                                i++;
+                            }
                         }
                     }
 
