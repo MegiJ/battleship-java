@@ -108,47 +108,51 @@ public class Main {
                         for (Ship ship : GameController.getReadyToAttackShip(enemyFleet)) {
                             console.println(String.format("Ship %s still wanna kill you", ship.getName()));
                         }
+                        try {
+                            Thread.currentThread().sleep(1000);
+                        }catch (Exception e){
+
+                        }
                     }
 
 
                     if (GameController.checkYouWin(enemyFleet)) {
                         endGame = true;
-                        console.print("\033[H\033[2J");
+                        GameController.clearConsole();
                         int i = 0;
                         while (i < 10) {
                             try {
                                 console.setForegroundColor(Ansi.FColor.RED);
                                 effectWOW( 160, 60, console);
                                 Thread.currentThread().sleep(1000);
-                                console.print("\033[H\033[2J");
+                                GameController.clearConsole();
                                 console.setForegroundColor(Ansi.FColor.YELLOW);
                                 effectWOW( 160, 60, console);
                                 Thread.currentThread().sleep(1000);
-                                console.print("\033[H\033[2J");
-                            } catch(InterruptedException e){
-                                //Perform your exception handling
-                            }
-                            //Increase the int so we aren't stuck here forever
+                                GameController.clearConsole();
+                            } catch(InterruptedException e){}
                             i++;
                         }
                     }
 
                 } else {
                     console.setForegroundColor(Ansi.FColor.BLUE);
-                    console.println("YOU MISS                                       ");
+                    console.println("YOU MISS");
                 }
-                System.out.println();
-                System.out.println();
 
-
-                position = getRandomPosition();
-                shottedShip = GameController.getShottedShip(myFleet, position);
-
-                console.println("");
-                console.setForegroundColor(Ansi.FColor.YELLOW);
-                console.println("--------------------------------------------------------------");
-                console.println("Computer turn");
                 if (!endGame) {
+                    System.out.println();
+                    System.out.println();
+
+
+                    position = getRandomPosition();
+                    shottedShip = GameController.getShottedShip(myFleet, position);
+
+                    console.println("");
+                    console.setForegroundColor(Ansi.FColor.YELLOW);
+                    console.println("--------------------------------------------------------------");
+                    console.println("Computer turn");
+
                     if (shottedShip.isPresent()) {
                         beep();
                         console.println(String.format("Computer shoot in %s%s", position.getColumn(), position.getRow()));
@@ -185,7 +189,7 @@ public class Main {
             }
 
             if(endGame){
-
+                GameController.clearConsole();
                 console.setForegroundColor(Ansi.FColor.WHITE);
                 console.println("press R - If you want to restart game!");
                 console.println("press X - If you want to end game!");
